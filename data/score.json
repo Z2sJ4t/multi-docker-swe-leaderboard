@@ -77,7 +77,7 @@
         "input_token": 339936.77, 
         "output_token": 103320.62, 
         "date": "10/11/2025",
-        "icon": "/asset/openai.jpg"
+        "icon": "asset/openai.jpg"
     },
     {
         "name": "Gemini-2.5-Flash", 
@@ -93,7 +93,7 @@
         "input_token": 202994.62, 
         "output_token": 18569.91, 
         "date": "12/30/2025",
-        "icon": "/asset/xiaomi.jpeg"
+        "icon": "asset/xiaomi.jpeg"
     },
     {
         "name": "m2.1", 
@@ -101,7 +101,7 @@
         "input_token": 213332.05, 
         "output_token": 47290.45, 
         "date": "12/30/2025",
-        "icon": "/asset/minmax.png"
+        "icon": "asset/minmax.png"
     },
     {
         "name": "glm-4.7", 
@@ -109,6 +109,6 @@
         "input_token": 164378.63, 
         "output_token": 51824.37, 
         "date": "12/30/2025",
-        "icon": "/asset/glm.jpg"
+        "icon": "asset/glm.jpg"
     }
 ]
