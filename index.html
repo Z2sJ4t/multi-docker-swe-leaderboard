@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Docker-Eval Leaderboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .gradient-text {
+            background: linear-gradient(90deg, #3b82f6, #2dd4bf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        tr:hover { background-color: rgba(59, 130, 246, 0.05); }
+        /* 新增：表头样式 */
+        th.sortable { cursor: pointer; user-select: none; }
+        th.sortable:hover { color: #3b82f6; }
+        .sort-icon { font-size: 0.7rem; margin-left: 4px; opacity: 0.5; }
+        th.active .sort-icon { opacity: 1; color: #3b82f6; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans">
+
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <span class="text-xl font-bold gradient-text">Multi-Docker-Eval</span>
+        </div>
+    </nav>
+
+    
+
+    <header class="max-w-4xl mx-auto pt-16 pb-12 px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-6 tracking-tight">
+            Can LLM Agents Build Your <span class="text-blue-600">Docker</span> Environments?
+        </h1>
+        <p class="text-lg text-slate-600 leading-relaxed mb-8">
+            Multi-Docker-Eval is a comprehensive multi-language, multi-dimensional benchmark designed to rigorously evaluate the capability of Large Language Model (LLM)-based agents in automating a critical yet underexplored task: constructing executable Docker environments for real-world software repositories.
+        </p>
+        
+        <div class="flex flex-wrap justify-center gap-4">
+
+            <a href="https://github.com/Z2sJ4t/Multi-Docker-Eval" class="bg-slate-900 text-white px-6 py-2.5 rounded-full font-medium hover:bg-slate-800 transition shadow-lg shadow-slate-200">
+
+                <i class="fab fa-github mr-2"></i>Code
+
+            </a>
+
+            <a href="https://arxiv.org/abs/2512.06915" class="bg-white border border-slate-200 px-6 py-2.5 rounded-full font-medium hover:border-blue-400 transition shadow-sm">
+
+                <i class="far fa-file-pdf mr-2 text-red-500"></i>Paper
+
+            </a>
+
+            <a href="https://huggingface.co/datasets/litble/Multi-Docker-Eval" class="bg-white border border-slate-200 px-6 py-2.5 rounded-full font-medium hover:border-yellow-400 transition shadow-sm">
+
+                <i class="fas fa-database mr-2 text-yellow-500"></i>Dataset
+
+            </a>
+
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 pb-24">
+        <div class="bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                <h2 class="text-xl font-bold flex items-center">
+                    <i class="fas fa-trophy text-yellow-500 mr-2"></i> Leaderboard
+                </h2>
+                <span class="text-sm text-slate-500">Last updated: 12/31/2025</span>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="text-slate-500 uppercase text-xs tracking-wider border-b border-slate-100">
+                            <th class="px-8 py-4 font-semibold sortable" onclick="handleSort('rank')">Rank <i class="fas fa-sort sort-icon"></i></th>
+                            <th class="px-6 py-4 font-semibold sortable" onclick="handleSort('name')">Model <i class="fas fa-sort sort-icon"></i></th>
+                            <th class="px-6 py-4 font-semibold text-center sortable active" onclick="handleSort('score')">Resolved <i class="fas fa-sort sort-icon"></i></th>
+                            <th class="px-6 py-4 font-semibold text-right sortable" onclick="handleSort('input_token')">Avg. Input <i class="fas fa-sort sort-icon"></i></th>
+                            <th class="px-6 py-4 font-semibold text-right sortable" onclick="handleSort('output_token')">Avg. Output <i class="fas fa-sort sort-icon"></i></th>
+                            <th class="px-6 py-4 font-semibold text-left sortable" onclick="handleSort('date')">Date <i class="fas fa-sort sort-icon"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-body" class="divide-y divide-slate-50">
+                        <tr><td colspan="6" class="text-center py-10 text-slate-400">Loading data...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let leaderboardData = [];
+        let currentSort = { key: 'score', ascending: false }; // 默认 Resolved 降序
+
+        async function loadLeaderboard() {
+            try {
+                const response = await fetch('data/score.json');
+                leaderboardData = await response.json();
+                
+                // 初始排序
+                sortData(currentSort.key, currentSort.ascending);
+                renderTable();
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('leaderboard-body').innerHTML = '<tr><td colspan="6" class="text-center py-10 text-red-400">Failed to load data.</td></tr>';
+            }
+        }
+
+        function handleSort(key) {
+            // 如果点击的是当前排序列，则切换升降序
+            if (currentSort.key === key) {
+                currentSort.ascending = !currentSort.ascending;
+            } else {
+                currentSort.key = key;
+                // 除了名称按升序(A-Z)，其他默认点击后降序排列
+                currentSort.ascending = (key === 'name' || key === 'date'); 
+            }
+            
+            // 更新 UI 状态
+            updateHeaderUI(key);
+            sortData(key, currentSort.ascending);
+            renderTable();
+        }
+
+        function sortData(key, ascending) {
+            leaderboardData.sort((a, b) => {
+                let valA = key === 'rank' ? (leaderboardData.indexOf(a)) : a[key];
+                let valB = key === 'rank' ? (leaderboardData.indexOf(b)) : b[key];
+
+                if (typeof valA === 'string') {
+                    return ascending ? valA.localeCompare(valB) : valB.localeCompare(valA);
+                } else {
+                    return ascending ? valA - valB : valB - valA;
+                }
+            });
+        }
+
+        function updateHeaderUI(activeKey) {
+            const headers = document.querySelectorAll('th.sortable');
+            headers.forEach(th => {
+                th.classList.remove('active');
+                const icon = th.querySelector('.sort-icon');
+                icon.className = 'fas fa-sort sort-icon';
+                
+                // 检查是否是当前激活的 key (这里通过 onclick 里的 key 匹配比较简单)
+                if (th.getAttribute('onclick').includes(`'${activeKey}'`)) {
+                    th.classList.add('active');
+                    icon.className = `fas fa-sort-${currentSort.ascending ? 'up' : 'down'} sort-icon`;
+                }
+            });
+        }
+
+        function renderTable() {
+            const tableBody = document.getElementById('leaderboard-body');
+            tableBody.innerHTML = '';
+
+            leaderboardData.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.className = 'transition-colors';
+                
+                // 这里我们按照 score 重新计算 Rank 视觉展示，或者保持原始顺序
+                // 为简单起见，这里展示数据在当前数组中的位置
+                let rankNum = index + 1;
+                let rankDisplay = rankNum;
+                if(rankNum === 1) rankDisplay = '🥇';
+                else if(rankNum === 2) rankDisplay = '🥈';
+                else if(rankNum === 3) rankDisplay = '🥉';
+
+                row.innerHTML = `
+                    <td class="px-8 py-5 font-bold text-slate-400 text-lg">${rankDisplay}</td>
+                    <td class="px-6 py-5">
+                        <div class="flex items-center gap-3">
+                            ${item.icon ? `<img src="${item.icon}" class="w-6 h-6 rounded">` : '<div class="w-6 h-6 bg-slate-200 rounded"></div>'}
+                            <span class="font-bold text-slate-800">${item.name}</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-5">
+                        <div class="flex items-center justify-center gap-2">
+                            <div class="w-full bg-slate-100 rounded-full h-2 max-w-[100px]">
+                                <div class="bg-blue-600 h-2 rounded-full" style="width: ${item.score}%"></div>
+                            </div>
+                            <span class="font-mono font-bold text-blue-700">${item.score.toFixed(2)}%</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-5 text-right font-mono text-slate-600 text-sm">${item.input_token.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                    <td class="px-6 py-5 text-right font-mono text-slate-600 text-sm">${item.output_token.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                    <td class="px-6 py-5 text-left font-mono text-slate-600 text-sm">${item.date}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        window.onload = loadLeaderboard;
+    </script>
+</body>
+</html>

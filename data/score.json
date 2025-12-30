@@ -1,0 +1,114 @@
+[
+    {
+        "name": "DeepSeek-v3.1", 
+        "score": 37.72, 
+        "input_token": 158105.34, 
+        "output_token": 17146.73, 
+        "date": "10/11/2025",
+        "icon": "asset/deepseek.png"
+    },
+    {
+        "name": "DeepSeek-R1", 
+        "score": 26.65, 
+        "input_token": 138052.88, 
+        "output_token": 60101.50, 
+        "date": "11/13/2025",
+        "icon": "asset/deepseek.png"
+    },
+    {
+        "name": "Qwen3-235B-A22B", 
+        "score": 23.65, 
+        "input_token": 101458.48, 
+        "output_token": 38866.44, 
+        "date": "10/11/2025",
+        "icon": "asset/qwen.png"
+    },
+    {
+        "name": "GPT-OSS-20B", 
+        "score": 17.17, 
+        "input_token": 184233.63, 
+        "output_token": 58366.75, 
+        "date": "10/11/2025",
+        "icon": "asset/openai.jpg"
+    },
+    {
+        "name": "GPT-OSS-120B", 
+        "score": 27.35, 
+        "input_token": 126340.48, 
+        "output_token": 28809.69, 
+        "date": "10/11/2025",
+        "icon": "asset/openai.jpg"
+    },
+    {
+        "name": "Kimi-K2-0711", 
+        "score": 34.23, 
+        "input_token": 97758.30, 
+        "output_token": 6554.79, 
+        "date": "10/11/2025",
+        "icon": "asset/kimi.jpeg"
+    },
+    {
+        "name": "Kimi-K2-0905", 
+        "score": 37.62, 
+        "input_token": 113022.95, 
+        "output_token": 7915.15, 
+        "date": "11/13/2025",
+        "icon": "asset/kimi.jpeg"
+    },
+    {
+        "name": "Kimi-K2-thinking", 
+        "score": 36.53, 
+        "input_token": 162117.67, 
+        "output_token": 59404.72, 
+        "date": "11/13/2025",
+        "icon": "asset/kimi.jpeg"
+    },
+    {
+        "name": "Claude-Sonnet-4", 
+        "score": 35.53, 
+        "input_token": 182853.46, 
+        "output_token": 15014.65, 
+        "date": "10/11/2025",
+        "icon": "asset/Anthropic.jpeg"
+    },
+    {
+        "name": "GPT-5-Mini", 
+        "score": 34.13, 
+        "input_token": 339936.77, 
+        "output_token": 103320.62, 
+        "date": "10/11/2025",
+        "icon": "/asset/openai.jpg"
+    },
+    {
+        "name": "Gemini-2.5-Flash", 
+        "score": 29.44, 
+        "input_token": 153431.79, 
+        "output_token": 32600.09, 
+        "date": "10/11/2025",
+        "icon": "asset/gemini.png"
+    },
+    {
+        "name": "mimo-v2-flash", 
+        "score": 32.83, 
+        "input_token": 202994.62, 
+        "output_token": 18569.91, 
+        "date": "12/30/2025",
+        "icon": "/asset/xiaomi.jpeg"
+    },
+    {
+        "name": "m2.1", 
+        "score": 25.05, 
+        "input_token": 213332.05, 
+        "output_token": 47290.45, 
+        "date": "12/30/2025",
+        "icon": "/asset/minmax.png"
+    },
+    {
+        "name": "glm-4.7", 
+        "score": 40.62, 
+        "input_token": 164378.63, 
+        "output_token": 51824.37, 
+        "date": "12/30/2025",
+        "icon": "/asset/glm.jpg"
+    }
+]
