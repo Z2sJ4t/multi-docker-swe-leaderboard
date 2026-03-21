@@ -110,5 +110,21 @@
         "output_token": 51824.37, 
         "date": "12/30/2025",
         "icon": "asset/glm.jpg"
+    },
+    {
+        "name": "kimi-k2.5",
+        "score": 41.82,
+        "input_token": 99746.30,
+        "output_token": 40233.19,
+        "date": "3/20/2026",
+        "icon": "asset/kimi.jpeg"
+    },
+    {
+        "name": "deepseek-v3.2",
+        "score": 36.63,
+        "input_token": 265848.38,
+        "output_token": 32247.11,
+        "date": "3/20/2026",
+        "icon": "asset/deepseek.png"
     }
 ]
